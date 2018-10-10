@@ -16,7 +16,7 @@
 	$id = mysqli_real_escape_string($db, $_GET['id']);
 	$key = mysqli_real_escape_string($db, $_GET['key']);
 
-	$director_email = "prmsrswt@gmail.com";
+	
 
 	$query = "SELECT * FROM requests WHERE id='$id' AND in_key='$key'";
 	$result = mysqli_query($db, $query);
@@ -28,8 +28,8 @@
 		mysqli_query($db, $sql);
 
 		$mail = new PHPMailer();                              // Passing `true` enables exceptions
-		$email = '<strong>'.$row['st_name'].'</strong> has requested a '.$row['category'].' room for '.$row['first_name'].'. Click the following link to approve the request. <br /> <a href="http://127.0.0.1/git/VH-Registration/dir_approve.php?key='.$dir_key.'&id='.$row['id'].'">http://127.0.0.1/git/VH-Registration/dir_approve.php?key='.$dir_key.'&id='.$row['id'].'</a> .';
-		$altemail = $row['st_name'].' has requested a '.$row['category'].' room for '.$row['first_name'].'. Open the following link in browser to approve the request. http://127.0.0.1/git/VH-Registration/approve.php?key='.$dir_key.'&id='.$row['id'].' .';
+		$email = '<strong>'.$row['st_name'].'</strong> has requested a '.$row['category'].' room for '.$row['first_name'].'. Click the following link to approve the request. <br /> <a href="'.$webaddress.'dir_approve.php?key='.$dir_key.'&id='.$row['id'].'">'.$webaddress.'dir_approve.php?key='.$dir_key.'&id='.$row['id'].'</a> .';
+		$altemail = $row['st_name'].' has requested a '.$row['category'].' room for '.$row['first_name'].'. Open the following link in browser to approve the request. '.$webaddress.'approve.php?key='.$dir_key.'&id='.$row['id'].' .';
 		try {
 		    //Server settings
 		    $mail->SMTPDebug = 0;                                 // Enable verbose debug output
@@ -42,7 +42,7 @@
 		    $mail->Port = 587;                                    // TCP port to connect to
 
 		    //Recipients
-		    $mail->setFrom('prmsrswt@gmail.com', 'Prem Sarswat');
+		    $mail->setFrom($mail_id, 'VH Registration');
 		    $mail->addAddress($director_email);     // Add a recipient
 
 

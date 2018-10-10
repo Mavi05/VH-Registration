@@ -26,8 +26,8 @@
 		mysqli_query($db, $sql);
 
 		$mail = new PHPMailer();                              // Passing `true` enables exceptions
-		$email = '<strong>'.$row['st_name'].'</strong> has requested a '.$row['category'].' room for '.$row['first_name'].'. Click the following link to approve the request. <br /> <a href="http://127.0.0.1/git/VH-Registration/approve.php?key='.$in_key.'&id='.$row['id'].'">http://127.0.0.1/git/VH-Registration/approve.php?key='.$in_key.'&id='.$row['id'].'</a> .';
-		$altemail = $row['st_name'].' has requested a '.$row['category'].' room for '.$row['first_name'].'. Open the following link in browser to approve the request. http://127.0.0.1/git/VH-Registration/approve.php?key='.$in_key.'&id='.$row['id'].' .';
+		$email = '<strong>'.$row['st_name'].'</strong> has requested a '.$row['category'].' room for '.$row['first_name'].'. Click the following link to approve the request. <br /> <a href="'.$webaddress.'approve.php?key='.$in_key.'&id='.$row['id'].'">'.$webaddress.'approve.php?key='.$in_key.'&id='.$row['id'].'</a> .';
+		$altemail = $row['st_name'].' has requested a '.$row['category'].' room for '.$row['first_name'].'. Open the following link in browser to approve the request. '.$webaddress.'approve.php?key='.$in_key.'&id='.$row['id'].' .';
 		try {
 		    //Server settings
 		    $mail->SMTPDebug = 0;                                 // Enable verbose debug output
@@ -40,7 +40,7 @@
 		    $mail->Port = 587;                                    // TCP port to connect to
 
 		    //Recipients
-		    $mail->setFrom('prmsrswt@gmail.com', 'Prem Sarswat');
+		    $mail->setFrom($mail_id, 'Prem Sarswat');
 		    $mail->addAddress($incharge_email);     // Add a recipient
 
 

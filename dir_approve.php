@@ -16,8 +16,6 @@
 	$id = mysqli_real_escape_string($db, $_GET['id']);
 	$key = mysqli_real_escape_string($db, $_GET['key']);
 
-	$incharge_email = "prmsrswt@gmail.com";
-
 	$query = "SELECT * FROM requests WHERE id='$id' AND dir_key='$key'";
 	$result = mysqli_query($db, $query);
 	$row = mysqli_fetch_assoc($result);
@@ -41,7 +39,7 @@
 		    $mail->Port = 587;                                    // TCP port to connect to
 
 		    //Recipients
-		    $mail->setFrom('prmsrswt@gmail.com', 'Prem Sarswat');
+		    $mail->setFrom($mail_id, 'VH Registration');
 		    $mail->addAddress($incharge_email);     // Add a recipient
 		    $mail->addAddress($row['st_email']);
 		    $mail->addAddress($row['email']);
