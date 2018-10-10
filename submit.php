@@ -52,7 +52,8 @@
     		$id = mysqli_insert_id($db);
     		echo "New record created successfully. Last inserted ID is: " . $last_id;
 		} else {
-    		echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    		echo "Error: " . $query . "<br>" . mysqli_error($db);
+    		exit();
 		}
 
 	  	$mail = new PHPMailer(true);                              // Passing `true` enables exceptions
