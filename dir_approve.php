@@ -21,7 +21,7 @@
 	$row = mysqli_fetch_assoc($result);
 	if (mysqli_num_rows($result) == 1) {
 
-		$sql = "UPDATE requests SET app_incharge=1, dir_key='$dir_key' WHERE id='$id'";
+		$sql = "UPDATE requests SET app_director=1 WHERE id='$id'";
 		mysqli_query($db, $sql);
 
 		$mail = new PHPMailer();                              // Passing `true` enables exceptions
