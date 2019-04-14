@@ -52,7 +52,8 @@
     		$id = mysqli_insert_id($db);
     		echo "New record created successfully. Last inserted ID is: " . $last_id;
 		} else {
-    		echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    		echo "Error: " . $query . "<br>" . mysqli_error($db);
+    		exit();
 		}
 
 	  	$mail = new PHPMailer(true);                              // Passing `true` enables exceptions
@@ -68,15 +69,15 @@
 		    $mail->Port = 587;                                    // TCP port to connect to
 
 		    //Recipients
-		    $mail->setFrom('prmsrswt@gmail.com', 'Prem Sarswat');
+		    $mail->setFrom($mail_id, 'VH Registration');
 		    $mail->addAddress($student_email);     // Add a recipient
 
 
 		    //Content
 		    $mail->isHTML(true);                                  // Set email format to HTML
 		    $mail->Subject = 'Registration for Visitor Hostel';
-		    $mail->Body    = 'Click the following link to verify that you registered for a room in Visitor Hostel <br /> <a href="http://127.0.0.1/git/VH-Registration/verify.php?key='.$key.'&id='.$id.'">http://127.0.0.1/git/VH-Registration/verify.php?key='.$key.'&id='.$id.'</a> .';
-		    $mail->AltBody = 'Open this url in your browser to verify that you applied for a room in Visitor Hostel http://127.0.0.1/git/VH-Registration/verify.php?key='.$key.'&id='.$id.' .';
+		    $mail->Body    = 'Click the following link to verify that you registered for a room in Visitor Hostel <br /> <a href="'.$webaddress.'verify.php?key='.$key.'&id='.$id.'">'.$webaddress.'verify.php?key='.$key.'&id='.$id.'</a> .';
+		    $mail->AltBody = 'Open this url in your browser to verify that you applied for a room in Visitor Hostel '.$webaddress.'verify.php?key='.$key.'&id='.$id.' .';
 
 		    $mail->send();
 		    echo 'Message has been sent';

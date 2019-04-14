@@ -16,20 +16,17 @@
 	$id = mysqli_real_escape_string($db, $_GET['id']);
 	$key = mysqli_real_escape_string($db, $_GET['key']);
 
-	
-
-	$query = "SELECT * FROM requests WHERE id='$id' AND in_key='$key'";
+	$query = "SELECT * FROM requests WHERE id='$id' AND dir_key='$key'";
 	$result = mysqli_query($db, $query);
 	$row = mysqli_fetch_assoc($result);
 	if (mysqli_num_rows($result) == 1) {
-		$dir_key = mt_rand(100000, 999999);
 
-		$sql = "UPDATE requests SET app_incharge=1, dir_key='$dir_key' WHERE id='$id'";
+		$sql = "UPDATE requests SET app_director=1 WHERE id='$id'";
 		mysqli_query($db, $sql);
 
 		$mail = new PHPMailer();                              // Passing `true` enables exceptions
-		$email = '<strong>'.$row['st_name'].'</strong> has requested a '.$row['category'].' room for '.$row['first_name'].'. Click the following link to approve the request. <br /> <a href="'.$webaddress.'dir_approve.php?key='.$dir_key.'&id='.$row['id'].'">'.$webaddress.'dir_approve.php?key='.$dir_key.'&id='.$row['id'].'</a> .';
-		$altemail = $row['st_name'].' has requested a '.$row['category'].' room for '.$row['first_name'].'. Open the following link in browser to approve the request. '.$webaddress.'approve.php?key='.$dir_key.'&id='.$row['id'].' .';
+		$email = 'The '.$row['category'].' room requested by <strong>'.$row['st_name'].'</strong> for '.$row['first_name'].' has been approved by Director, ABV-IIITM Gwalior.';
+		$altemail = 'The '.$row['category'].' room requested by '.$row['st_name'].' for '.$row['first_name'].' has been approved by Director, ABV-IIITM Gwalior.';
 		try {
 		    //Server settings
 		    $mail->SMTPDebug = 0;                                 // Enable verbose debug output
@@ -43,18 +40,20 @@
 
 		    //Recipients
 		    $mail->setFrom($mail_id, 'VH Registration');
-		    $mail->addAddress($director_email);     // Add a recipient
+		    $mail->addAddress($incharge_email);     // Add a recipient
+		    $mail->addAddress($row['st_email']);
+		    $mail->addAddress($row['email']);
 
 
 		    //Content
 		    $mail->isHTML(true);                                  // Set email format to HTML
-		    $mail->Subject = 'New Registration for Visitor Hostel';
+		    $mail->Subject = 'Registration approved for Visitor Hostel';
 		    $mail->Body    = $email;
 		    $mail->AltBody = $altemail;
 
 		    $mail->send();
-		    $msg = '<h1><span class="doneTitle">You have approved the request.</span></h1>
-			<h3><span class="doneSub">An email will be sent to you when Director approves this request.</span></h3>';
+		    $msg = '<h1><span class="doneTitle">Thanks for approving the request.</span></h1>
+			<h3><span class="doneSub">An email will be sent to VH Incharge for confirmation.</span></h3>';
 		} catch (Exception $e) {
 			$msg = '<h1><span class="doneTitle">Message could not be sent. Mailer Error: </span></h1>'.$mail->ErrorInfo; 
 		}
